@@ -60,28 +60,28 @@ export default function SetupScreen({ refreshStatus }: { refreshStatus: () => vo
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-8 max-w-xl mx-auto relative">
+    <div className="flex flex-col items-center justify-center min-h-screen p-8 max-w-xl mx-auto relative text-zinc-100">
       <button 
         onClick={() => {
           localStorage.removeItem("token");
           refreshStatus();
         }}
-        className="fixed top-8 right-8 text-xs font-bold text-gray-500 hover:text-black uppercase tracking-widest bg-white p-2 rounded shadow-sm z-50"
+        className="fixed top-8 right-8 text-xs font-bold text-zinc-500 hover:text-zinc-300 uppercase tracking-widest bg-zinc-900 border border-zinc-800 p-2 rounded shadow-lg z-50 transition-colors"
       >
         Logout
       </button>
 
-      <h1 className="text-4xl font-bold mb-8 tracking-widest text-[#444444] text-center">SYSTEM SETUP</h1>
+      <h1 className="text-4xl font-bold mb-8 tracking-widest text-zinc-400 text-center">SYSTEM SETUP</h1>
       
       {error && <div className="text-red-500 mb-4 text-center text-sm">{error}</div>}
 
       <div className="w-full space-y-8">
         {/* Step 1: Set Aim */}
-        <div className={`p-6 border ${aimSaved ? 'border-green-500 bg-green-50' : 'border-[#444444]'}`}>
-          <h2 className="text-xl font-bold mb-4">1. Define Your Priorities</h2>
-          <p className="text-sm text-gray-600 mb-4">What is your single most important priority right now?</p>
+        <div className={`p-6 border rounded-sm ${aimSaved ? 'border-green-900 bg-green-950/20' : 'border-zinc-800 bg-zinc-900/40'}`}>
+          <h2 className="text-xl font-bold mb-4 text-zinc-100">1. Define Your Priorities</h2>
+          <p className="text-sm text-zinc-400 mb-4">What is your single most important priority right now?</p>
           <textarea
-            className="w-full p-2 border border-blue-400 mb-4"
+            className="w-full p-3 bg-black/50 border border-zinc-700 text-zinc-200 placeholder-zinc-600 focus:outline-none focus:border-zinc-500 mb-4 rounded-sm"
             rows={2}
             placeholder="Primary Aim (e.g. Launch my startup gracefully by Q3...)"
             value={aim}
@@ -90,10 +90,10 @@ export default function SetupScreen({ refreshStatus }: { refreshStatus: () => vo
           />
 
           {!aimSaved && extraPriorities.map((ep, i) => (
-            <div key={i} className="flex gap-2 mb-2">
+            <div key={i} className="flex gap-2 mb-3">
               <input
                 type="text"
-                className="w-full p-2 border border-gray-300"
+                className="w-full p-3 bg-black/50 border border-zinc-700 text-zinc-200 placeholder-zinc-600 focus:outline-none focus:border-zinc-500 rounded-sm"
                 placeholder={`Secondary Priority ${i + 1}`}
                 value={ep}
                 onChange={(e) => handleExtraChange(i, e.target.value)}
@@ -101,7 +101,7 @@ export default function SetupScreen({ refreshStatus }: { refreshStatus: () => vo
               />
               <button
                 onClick={() => handleRemoveExtra(i)}
-                className="px-3 bg-red-100 text-red-600 font-bold hover:bg-red-200"
+                className="px-4 bg-red-950/40 text-red-500 font-bold hover:bg-red-900/60 border border-red-900/50 transition-colors rounded-sm"
                 disabled={loading || aimSaved}
               >
                 X
@@ -110,9 +110,9 @@ export default function SetupScreen({ refreshStatus }: { refreshStatus: () => vo
           ))}
 
           {aimSaved && extraPriorities.filter(p => p.trim()).length > 0 && (
-            <div className="mb-4">
-              <p className="text-xs font-bold text-gray-500 uppercase mb-2">Secondary Priorities:</p>
-              <ul className="list-disc pl-5 text-sm text-gray-700">
+            <div className="mb-6">
+              <p className="text-xs font-bold text-zinc-500 uppercase mb-3">Secondary Priorities:</p>
+              <ul className="list-disc pl-5 text-sm text-zinc-400 space-y-1">
                 {extraPriorities.filter(p => p.trim()).map((ep, i) => (
                   <li key={i}>{ep}</li>
                 ))}
@@ -123,7 +123,7 @@ export default function SetupScreen({ refreshStatus }: { refreshStatus: () => vo
           {!aimSaved && extraPriorities.length < 4 && (
              <button
                onClick={handleAddExtra}
-               className="text-xs font-bold text-blue-600 uppercase mb-4 hover:underline block"
+               className="text-xs font-bold text-zinc-400 uppercase mb-6 hover:text-zinc-200 transition-colors block tracking-widest"
                disabled={loading}
              >
                + Add Priority ({extraPriorities.length + 1}/5 max)
@@ -134,46 +134,46 @@ export default function SetupScreen({ refreshStatus }: { refreshStatus: () => vo
             <button
               onClick={handleSaveAim}
               disabled={loading}
-              className="px-6 py-2 bg-black text-white w-full uppercase tracking-wider text-sm font-bold"
+              className="px-6 py-3 bg-zinc-200 text-black hover:bg-white w-full uppercase tracking-wider text-sm font-bold transition-colors rounded-sm"
             >
               {loading ? "Saving..." : "Save Priorities"}
             </button>
           )}
-          {aimSaved && <div className="text-green-600 font-bold uppercase text-sm">✓ Priorities Locked In</div>}
+          {aimSaved && <div className="text-green-500 font-bold uppercase text-sm tracking-widest mt-2">✓ Priorities Locked In</div>}
         </div>
 
         {/* Step 2: Enable Locking */}
         {aimSaved && (
-          <div className="p-6 border border-red-500 bg-red-50 animate-fade-in transition-opacity duration-500">
-            <h2 className="text-xl font-bold mb-4 text-red-700">2. Enable Strict Mode</h2>
+          <div className="p-6 border border-red-900/50 bg-red-950/20 animate-fade-in transition-opacity duration-500 rounded-sm">
+            <h2 className="text-xl font-bold mb-5 text-red-500 tracking-wide">2. Enable Strict Mode</h2>
             
-            <div className="flex items-center space-x-3 mb-6">
+            <div className="flex items-center space-x-4 mb-6">
               <input
                 type="checkbox"
                 id="enableLocking"
-                className="w-5 h-5 accent-red-600"
+                className="w-5 h-5 accent-red-600 bg-black border-red-900"
                 checked={lockingEnabled}
                 onChange={(e) => setLockingEnabled(e.target.checked)}
                 disabled={loading}
               />
-              <label htmlFor="enableLocking" className="font-bold text-red-900 cursor-pointer">
+              <label htmlFor="enableLocking" className="font-bold text-red-300 cursor-pointer text-sm">
                 I am ready to enforce my schedule.
               </label>
             </div>
 
-            <div className="text-xs text-red-800 mb-6 bg-red-100 p-3 rounded">
-              <strong className="block mb-1 font-extrabold uppercase tracking-widest">WARNING:</strong>
+            <div className="text-xs text-red-300/80 mb-8 bg-red-950/40 border border-red-900/40 p-4 rounded-sm">
+              <strong className="block mb-2 font-extrabold uppercase tracking-widest text-red-400">WARNING:</strong>
               Once enabled, the system will start locking your application during non-window hours. 
-              <strong> You cannot undo this without burning your streak.</strong>
+              <strong className="block mt-2 text-red-400">You cannot undo this without burning your streak.</strong>
             </div>
 
             <button
               onClick={handleConfirmLock}
               disabled={!lockingEnabled || loading}
-              className={`px-6 py-3 w-full uppercase tracking-widest text-sm font-bold transition-all
+              className={`px-6 py-4 w-full uppercase tracking-widest text-sm font-bold transition-all rounded-sm
                 ${!lockingEnabled || loading 
-                  ? 'bg-gray-300 text-gray-500 cursor-not-allowed' 
-                  : 'bg-red-600 text-white hover:bg-red-700 shadow-lg'}`}
+                  ? 'bg-zinc-800 text-zinc-600 cursor-not-allowed border border-zinc-700/50' 
+                  : 'bg-red-900/80 text-red-100 hover:bg-red-800 hover:shadow-lg hover:shadow-red-900/20 border border-red-700'}`}
             >
               {loading ? "Securing System..." : "Confirm & Lock System"}
             </button>
