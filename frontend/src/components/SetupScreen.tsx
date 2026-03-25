@@ -40,7 +40,17 @@ export default function SetupScreen({ refreshStatus }: { refreshStatus: () => vo
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-8 max-w-xl mx-auto">
+    <div className="flex flex-col items-center justify-center min-h-screen p-8 max-w-xl mx-auto relative">
+      <button 
+        onClick={() => {
+          localStorage.removeItem("token");
+          refreshStatus();
+        }}
+        className="absolute top-4 right-4 text-xs font-bold text-gray-500 hover:text-black uppercase tracking-widest"
+      >
+        Logout
+      </button>
+
       <h1 className="text-4xl font-bold mb-8 tracking-widest text-[#444444] text-center">SYSTEM SETUP</h1>
       
       {error && <div className="text-red-500 mb-4 text-center text-sm">{error}</div>}
