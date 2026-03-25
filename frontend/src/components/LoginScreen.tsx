@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { API_BASE_URL } from "../lib/api";
 
 export default function LoginScreen({ setAuthenticated }: { setAuthenticated: () => void }) {
   const [email, setEmail] = useState("");
@@ -12,7 +13,7 @@ export default function LoginScreen({ setAuthenticated }: { setAuthenticated: ()
     try {
       if (isRegister) {
         // Register Logic
-        const res = await fetch("http://localhost:8000/api/auth/register", {
+        const res = await fetch(`${API_BASE_URL}/auth/register`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email, password, am_window_start: "08:00", pm_window_start: "20:00" })
@@ -23,7 +24,7 @@ export default function LoginScreen({ setAuthenticated }: { setAuthenticated: ()
         // Not implemented here, assuming generic or user will set later.
       }
       
-      const res = await fetch("http://localhost:8000/api/auth/login", {
+      const res = await fetch(`${API_BASE_URL}/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: new URLSearchParams({
