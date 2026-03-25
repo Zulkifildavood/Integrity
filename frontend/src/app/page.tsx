@@ -43,7 +43,7 @@ export default function Home() {
     } catch (err) {
       console.error("Failed to fetch status", err);
       // Determine if 401 Unauthorized
-      if (err instanceof Error && err.message.includes("Could not validate credentials")) {
+      if (err instanceof Error && (err.message.includes("Could not validate credentials") || err.message.includes("Not authenticated") || err.message.includes("401"))) {
          localStorage.removeItem("token");
          setStatus("UNAUTHORIZED");
          setIsAuthenticated(false);

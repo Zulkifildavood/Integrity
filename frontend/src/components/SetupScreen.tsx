@@ -46,7 +46,7 @@ export default function SetupScreen({ refreshStatus }: { refreshStatus: () => vo
           localStorage.removeItem("token");
           refreshStatus();
         }}
-        className="absolute top-4 right-4 text-xs font-bold text-gray-500 hover:text-black uppercase tracking-widest"
+        className="fixed top-8 right-8 text-xs font-bold text-gray-500 hover:text-black uppercase tracking-widest bg-white p-2 rounded shadow-sm z-50"
       >
         Logout
       </button>
