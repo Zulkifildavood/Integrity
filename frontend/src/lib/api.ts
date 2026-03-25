@@ -37,6 +37,19 @@ export const getStatus = async () => {
   return fetchAPI("/windows/status");
 };
 
+export const enableLocking = async () => {
+  return fetchAPI("/windows/enable-locking", {
+    method: "POST",
+  });
+};
+
+export const createAim = async (primary_aim: string, description: string = "") => {
+  return fetchAPI("/aims/", {
+    method: "POST",
+    body: JSON.stringify({ primary_aim, description }),
+  });
+};
+
 export const submitAMGoals = async (goals: string[]) => {
   return fetchAPI("/windows/architect/submit", {
     method: "POST",

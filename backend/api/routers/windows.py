@@ -17,6 +17,13 @@ def sync_time():
 @router.get("/status")
 def get_status(db: Session = Depends(deps.get_db), current_user: models.User = Depends(deps.get_current_user)):
     """Returns the current state machine status for the user"""
+    if not current_user.is_locking_enabled:
+        return {
+            "status": "SETUP",
+            "time_remaining_seconds": 0,
+            "is_burn": False
+        }
+
     status, remaining = time_lock.evaluate_window_status(current_user.am_window_start, current_user.pm_window_start)
     
     # Check if they already completed today's log
@@ -52,6 +59,16 @@ def get_status(db: Session = Depends(deps.get_db), current_user: models.User = D
         "time_remaining_seconds": remaining,
         "is_burn": is_burn
     }
+
+@router.post("/enable-locking")
+def enable_locking(db: Session = Depends(deps.get_db), current_user: models.User = Depends(deps.get_current_user)):
+    """Enables system locking natively, converting from SETUP to LOCKED/OPEN phase"""
+    if current_user.is_locking_enabled:
+        raise HTTPException(status_code=400, detail="Locking is already enabled.")
+    
+    current_user.is_locking_enabled = True
+    db.commit()
+    return {"message": "Locking enabled successfully"}
 
 @router.post("/architect/submit", response_model=log_schema.DailyLogResponse)
 def submit_am_goals(goals_in: log_schema.AMGoalSubmit, db: Session = Depends(deps.get_db), current_user: models.User = Depends(deps.get_current_user)):

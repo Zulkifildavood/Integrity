@@ -18,6 +18,7 @@ class UserUpdate(BaseModel):
 
 class UserResponse(UserBase):
     id: int
+    is_locking_enabled: bool = False
     created_at: datetime
     
     class Config:

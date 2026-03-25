@@ -15,6 +15,8 @@ class User(Base):
     pm_window_start = Column(String, default="20:00")
     timezone = Column(String, default="UTC")
     
+    is_locking_enabled = Column(Boolean, default=False)
+    
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
     aims = relationship("Aim", back_populates="user")

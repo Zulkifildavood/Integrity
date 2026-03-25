@@ -7,6 +7,7 @@ import AMScreen from "@/components/AMScreen";
 import PMScreen from "@/components/PMScreen";
 import BurnScreen from "@/components/BurnScreen";
 import LoginScreen from "@/components/LoginScreen";
+import SetupScreen from "@/components/SetupScreen";
 
 export default function Home() {
   const [status, setStatus] = useState<string>("LOADING");
@@ -78,6 +79,7 @@ export default function Home() {
 
       <div className={process.env.NODE_ENV === "development" ? "pt-10" : ""}>
         {currentIsBurn ? <BurnScreen /> : 
+         currentStatus === "SETUP" ? <SetupScreen refreshStatus={() => testMode ? undefined : fetchStatus()} /> :
          currentStatus === "OPEN_AM" ? <AMScreen remaining={remaining} refreshStatus={() => testMode ? undefined : fetchStatus()} /> :
          currentStatus === "OPEN_PM" ? <PMScreen remaining={remaining} refreshStatus={() => testMode ? undefined : fetchStatus()} /> :
          <LockedScreen remaining={remaining > 0 ? remaining : 3600} />}
