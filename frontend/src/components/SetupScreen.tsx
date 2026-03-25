@@ -4,6 +4,7 @@ import { createAim, enableLocking } from "@/lib/api";
 
 export default function SetupScreen({ refreshStatus }: { refreshStatus: () => void }) {
   const [aim, setAim] = useState("");
+  const [extraPriorities, setExtraPriorities] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [aimSaved, setAimSaved] = useState(false);
   const [lockingEnabled, setLockingEnabled] = useState(false);
@@ -14,16 +15,35 @@ export default function SetupScreen({ refreshStatus }: { refreshStatus: () => vo
       setError("Please enter your primary aim.");
       return;
     }
+    const filteredExtras = extraPriorities.filter(p => p.trim());
     setLoading(true);
     setError("");
     try {
-      await createAim(aim);
+      await createAim(aim, JSON.stringify(filteredExtras));
       setAimSaved(true);
     } catch (err: any) {
       setError(err.message || "Failed to save aim.");
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleAddExtra = () => {
+    if (extraPriorities.length < 4) {
+      setExtraPriorities([...extraPriorities, ""]);
+    }
+  };
+
+  const handleExtraChange = (index: number, value: string) => {
+    const newExtras = [...extraPriorities];
+    newExtras[index] = value;
+    setExtraPriorities(newExtras);
+  };
+
+  const handleRemoveExtra = (index: number) => {
+    const newExtras = [...extraPriorities];
+    newExtras.splice(index, 1);
+    setExtraPriorities(newExtras);
   };
 
   const handleConfirmLock = async () => {
@@ -58,26 +78,68 @@ export default function SetupScreen({ refreshStatus }: { refreshStatus: () => vo
       <div className="w-full space-y-8">
         {/* Step 1: Set Aim */}
         <div className={`p-6 border ${aimSaved ? 'border-green-500 bg-green-50' : 'border-[#444444]'}`}>
-          <h2 className="text-xl font-bold mb-4">1. Define Your Primary Aim</h2>
+          <h2 className="text-xl font-bold mb-4">1. Define Your Priorities</h2>
           <p className="text-sm text-gray-600 mb-4">What is your single most important priority right now?</p>
           <textarea
-            className="w-full p-2 border border-gray-300 mb-4"
-            rows={3}
-            placeholder="e.g. Launch my startup gracefully by Q3..."
+            className="w-full p-2 border border-blue-400 mb-4"
+            rows={2}
+            placeholder="Primary Aim (e.g. Launch my startup gracefully by Q3...)"
             value={aim}
             onChange={(e) => setAim(e.target.value)}
             disabled={loading || aimSaved}
           />
+
+          {!aimSaved && extraPriorities.map((ep, i) => (
+            <div key={i} className="flex gap-2 mb-2">
+              <input
+                type="text"
+                className="w-full p-2 border border-gray-300"
+                placeholder={`Secondary Priority ${i + 1}`}
+                value={ep}
+                onChange={(e) => handleExtraChange(i, e.target.value)}
+                disabled={loading || aimSaved}
+              />
+              <button
+                onClick={() => handleRemoveExtra(i)}
+                className="px-3 bg-red-100 text-red-600 font-bold hover:bg-red-200"
+                disabled={loading || aimSaved}
+              >
+                X
+              </button>
+            </div>
+          ))}
+
+          {aimSaved && extraPriorities.filter(p => p.trim()).length > 0 && (
+            <div className="mb-4">
+              <p className="text-xs font-bold text-gray-500 uppercase mb-2">Secondary Priorities:</p>
+              <ul className="list-disc pl-5 text-sm text-gray-700">
+                {extraPriorities.filter(p => p.trim()).map((ep, i) => (
+                  <li key={i}>{ep}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {!aimSaved && extraPriorities.length < 4 && (
+             <button
+               onClick={handleAddExtra}
+               className="text-xs font-bold text-blue-600 uppercase mb-4 hover:underline block"
+               disabled={loading}
+             >
+               + Add Priority ({extraPriorities.length + 1}/5 max)
+             </button>
+          )}
+
           {!aimSaved && (
             <button
               onClick={handleSaveAim}
               disabled={loading}
               className="px-6 py-2 bg-black text-white w-full uppercase tracking-wider text-sm font-bold"
             >
-              {loading ? "Saving..." : "Save Priority"}
+              {loading ? "Saving..." : "Save Priorities"}
             </button>
           )}
-          {aimSaved && <div className="text-green-600 font-bold uppercase text-sm">✓ Aim Locked In</div>}
+          {aimSaved && <div className="text-green-600 font-bold uppercase text-sm">✓ Priorities Locked In</div>}
         </div>
 
         {/* Step 2: Enable Locking */}
