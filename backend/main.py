@@ -5,8 +5,17 @@ from db.session import engine
 from db import models
 from api.routers import auth, aims, windows, gaps
 
+from sqlalchemy import text
+
 # Create DB tables
 models.Base.metadata.create_all(bind=engine)
+
+# Quick migration for is_locking_enabled
+with engine.begin() as conn:
+    try:
+        conn.execute(text("ALTER TABLE users ADD COLUMN is_locking_enabled BOOLEAN DEFAULT FALSE;"))
+    except Exception:
+        pass  # Column likely already exists
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
