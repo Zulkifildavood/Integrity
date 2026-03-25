@@ -1,3 +1,7 @@
+export const API_BASE_URL = process.env.NODE_ENV === "production" 
+  ? "https://integrity-backend-jm08.onrender.com/api" 
+  : "http://127.0.0.1:8000/api";
+
 export const fetchAPI = async (endpoint: string, options: RequestInit = {}) => {
   const token = localStorage.getItem("token");
   
@@ -8,10 +12,6 @@ export const fetchAPI = async (endpoint: string, options: RequestInit = {}) => {
   if (token) {
     defaultHeaders["Authorization"] = `Bearer ${token}`;
   }
-
-  const API_BASE_URL = process.env.NODE_ENV === "production" 
-    ? "https://integrity-backend-jm08.onrender.com/api" 
-    : "http://127.0.0.1:8000/api";
 
   const response = await fetch(`${API_BASE_URL}${endpoint}`, {
     ...options,
