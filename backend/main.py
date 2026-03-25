@@ -1,9 +1,9 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from backend.core.config import settings
-from backend.db.session import engine
-from backend.db import models
-from backend.api.routers import auth, aims, windows, gaps
+from core.config import settings
+from db.session import engine
+from db import models
+from api.routers import auth, aims, windows, gaps
 
 # Create DB tables
 models.Base.metadata.create_all(bind=engine)

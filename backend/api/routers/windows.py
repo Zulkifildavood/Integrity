@@ -2,10 +2,10 @@ import json
 from datetime import datetime
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
-from backend.db import models
-from backend.schemas import daily_log as log_schema
-from backend.api import deps
-from backend.services import time_lock, ai_engine
+from db import models
+from schemas import daily_log as log_schema
+from api import deps
+from services import time_lock, ai_engine
 
 router = APIRouter()
 

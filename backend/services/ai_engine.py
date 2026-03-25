@@ -1,7 +1,7 @@
 import json
 from google import genai
 from google.genai import types
-from backend.core.config import settings
+from core.config import settings
 
 client = genai.Client(api_key=settings.GEMINI_API_KEY)
 
