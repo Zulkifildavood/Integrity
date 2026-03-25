@@ -29,10 +29,20 @@ def get_status(db: Session = Depends(deps.get_db), current_user: models.User = D
     if log:
         if status == "OPEN_AM" and log.am_completed_at:
             status = "LOCKED"
-            remaining = 0
+            # next window is PM
+            now = time_lock.get_current_time_utc()
+            now_seconds = now.hour * 3600 + now.minute * 60 + now.second
+            pm_h, pm_m = map(int, current_user.pm_window_start.split(":"))
+            remaining = (pm_h * 60 + pm_m) * 60 - now_seconds
+            if remaining < 0: 
+                 remaining = (24 * 3600 - now_seconds) + (pm_h * 60 + pm_m) * 60
         elif status == "OPEN_PM" and log.pm_completed_at:
             status = "LOCKED"
-            remaining = 0
+            # next window is AM tomorrow
+            now = time_lock.get_current_time_utc()
+            now_seconds = now.hour * 3600 + now.minute * 60 + now.second
+            am_h, am_m = map(int, current_user.am_window_start.split(":"))
+            remaining = (24 * 3600 - now_seconds) + (am_h * 60 + am_m) * 60
             
     is_burn = False
     # If they missed a window? For MVP we just evaluate current status, Burn needs a daily cron or evaluated on login.

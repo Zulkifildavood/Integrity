@@ -14,6 +14,9 @@ export default function Home() {
   const [isBurn, setIsBurn] = useState<boolean>(false);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
+  // -------- TEST MODE OVERRIDE --------
+  const [testMode, setTestMode] = useState<{ active: boolean; mockStatus: string; mockIsBurn: boolean } | null>(null);
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -56,11 +59,29 @@ export default function Home() {
 
   if (status === "LOADING") return <div className="p-8">LOADING_SYSTEM_STATE...</div>;
 
-  if (isBurn) return <BurnScreen />;
-  
-  if (status === "OPEN_AM") return <AMScreen remaining={remaining} refreshStatus={fetchStatus} />;
-  
-  if (status === "OPEN_PM") return <PMScreen remaining={remaining} refreshStatus={fetchStatus} />;
+  const currentStatus = testMode?.active ? testMode.mockStatus : status;
+  const currentIsBurn = testMode?.active ? testMode.mockIsBurn : isBurn;
 
-  return <LockedScreen remaining={remaining} />;
+  return (
+    <>
+      {/* DEVELOPMENT ONLY: TEST PANEL */}
+      {process.env.NODE_ENV === "development" && (
+        <div className="fixed top-0 left-0 right-0 bg-yellow-400 text-black text-xs font-mono p-2 flex items-center justify-center gap-4 z-50">
+          <strong>TEST MODE:</strong>
+          <button className="bg-black text-white px-2 py-1 rounded" onClick={() => setTestMode(null)}>Real State</button>
+          <button className="bg-black text-white px-2 py-1 rounded" onClick={() => setTestMode({ active: true, mockStatus: "OPEN_AM", mockIsBurn: false })}>Force AM</button>
+          <button className="bg-black text-white px-2 py-1 rounded" onClick={() => setTestMode({ active: true, mockStatus: "OPEN_PM", mockIsBurn: false })}>Force PM</button>
+          <button className="bg-black text-white px-2 py-1 rounded" onClick={() => setTestMode({ active: true, mockStatus: "LOCKED", mockIsBurn: false })}>Force Locked</button>
+          <button className="bg-black text-white px-2 py-1 rounded" onClick={() => setTestMode({ active: true, mockStatus: "LOCKED", mockIsBurn: true })}>Force Burn</button>
+        </div>
+      )}
+
+      <div className={process.env.NODE_ENV === "development" ? "pt-10" : ""}>
+        {currentIsBurn ? <BurnScreen /> : 
+         currentStatus === "OPEN_AM" ? <AMScreen remaining={remaining} refreshStatus={() => testMode ? undefined : fetchStatus()} /> :
+         currentStatus === "OPEN_PM" ? <PMScreen remaining={remaining} refreshStatus={() => testMode ? undefined : fetchStatus()} /> :
+         <LockedScreen remaining={remaining > 0 ? remaining : 3600} />}
+      </div>
+    </>
+  );
 }
