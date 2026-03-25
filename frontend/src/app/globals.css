@@ -1,0 +1,67 @@
+@import "tailwindcss";
+
+:root {
+  --background: #000000;
+  --foreground: #ffffff;
+  --accent: #ff0000;
+  --dim: #444444;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  margin: 0;
+  padding: 0;
+}
+
+/* Brutalist Inputs */
+input, textarea {
+  background-color: transparent;
+  border: 1px solid var(--dim);
+  color: var(--foreground);
+  font-family: inherit;
+  padding: 0.5rem;
+  width: 100%;
+  outline: none;
+}
+
+input:focus, textarea:focus {
+  border-color: var(--foreground);
+}
+
+/* Brutalist Buttons */
+button {
+  background-color: transparent;
+  color: var(--foreground);
+  border: 1px solid var(--foreground);
+  padding: 0.5rem 1rem;
+  font-family: inherit;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+button:hover {
+  background-color: var(--foreground);
+  color: var(--background);
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--dim);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--foreground);
+}
