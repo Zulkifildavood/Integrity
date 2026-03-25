@@ -8,8 +8,12 @@ export default function LoginScreen({ setAuthenticated }: { setAuthenticated: ()
   const [error, setError] = useState("");
   const [isRegister, setIsRegister] = useState(false);
 
+  const [successMsg, setSuccessMsg] = useState("");
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError("");
+    setSuccessMsg("");
     try {
       if (isRegister) {
         // Register Logic
@@ -18,10 +22,17 @@ export default function LoginScreen({ setAuthenticated }: { setAuthenticated: ()
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email, password, am_window_start: "08:00", pm_window_start: "20:00" })
         });
-        if (!res.ok) throw new Error("Registration failed");
         
-        // Setup initial primary aim for MVP flow simplicity
-        // Not implemented here, assuming generic or user will set later.
+        let errorData = null;
+        if (!res.ok) {
+           errorData = await res.json().catch(() => null);
+           throw new Error(errorData?.detail || "Registration failed");
+        }
+        
+        setSuccessMsg("Registration successful! Please log in.");
+        setIsRegister(false);
+        setPassword("");
+        return; // Stop here, force manual login
       }
       
       const res = await fetch(`${API_BASE_URL}/auth/login`, {
@@ -47,6 +58,7 @@ export default function LoginScreen({ setAuthenticated }: { setAuthenticated: ()
       <h1 className="text-2xl font-bold mb-8 uppercase tracking-widest">RITUAL WINDOW</h1>
       <form onSubmit={handleSubmit} className="w-full max-w-sm flex flex-col space-y-4">
         {error && <div className="text-red-500 text-sm">{error}</div>}
+        {successMsg && <div className="text-green-500 text-sm">{successMsg}</div>}
         <input 
           type="email" 
           placeholder="EMAIL" 
