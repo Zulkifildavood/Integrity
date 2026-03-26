@@ -54,7 +54,7 @@ export default function LoginScreen({ setAuthenticated }: { setAuthenticated: ()
   };
 
   return (
-    <div className="flex flex-col items-center justify-center w-full px-4 py-12 sm:p-8">
+    <div className="flex flex-col items-center justify-center min-h-screen w-full px-4 py-8">
       <h1 className="text-xl sm:text-2xl font-bold mb-8 uppercase tracking-widest text-center">RITUAL WINDOW</h1>
       <form onSubmit={handleSubmit} className="w-full max-w-sm flex flex-col space-y-4">
         {error && <div className="text-red-500 text-sm text-center">{error}</div>}
