@@ -1,10 +1,10 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
 
-export default function Header({ 
-  setActiveMenuOverride 
-}: { 
-  setActiveMenuOverride: (view: string | null) => void 
+export default function Header({
+  setActiveMenuOverride
+}: {
+  setActiveMenuOverride: (view: string | null) => void
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -31,15 +31,15 @@ export default function Header({
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 flex justify-between items-center p-4 bg-black/80 backdrop-blur-md border-b border-zinc-900">
-      <div 
+      <div
         className="text-white font-bold tracking-widest uppercase cursor-pointer text-sm"
         onClick={() => handleAction(() => setActiveMenuOverride(null))}
       >
-        Antigravity
+        Integrity
       </div>
 
       <div className="relative" ref={menuRef}>
-        <button 
+        <button
           onClick={() => setMenuOpen(!menuOpen)}
           className="p-2 text-zinc-400 hover:text-white transition-colors focus:outline-none"
           aria-label="Menu"
