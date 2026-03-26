@@ -5,13 +5,15 @@ import { updateProfile } from "@/lib/api";
 export default function UsernameScreen({ 
   refreshStatus, 
   isEditMode = false,
-  onClose
+  onClose,
+  initialUsername = ""
 }: { 
   refreshStatus: () => void;
   isEditMode?: boolean;
   onClose?: () => void;
+  initialUsername?: string;
 }) {
-  const [username, setUsername] = useState("");
+  const [username, setUsername] = useState(initialUsername);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 

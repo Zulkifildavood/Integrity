@@ -137,12 +137,12 @@ export default function Home() {
             </h2>
           </div>
         )}
-        {activeMenuOverride === "PROFILE" ? <UsernameScreen isEditMode={true} onClose={() => setActiveMenuOverride(null)} refreshStatus={() => { 
+        {activeMenuOverride === "PROFILE" ? <UsernameScreen isEditMode={true} initialUsername={username || ""} onClose={() => setActiveMenuOverride(null)} refreshStatus={() => { 
             testMode ? undefined : fetchStatus();
             fetchProfile(); 
           }} /> :
          activeMenuOverride === "SETUP" ? <SetupScreen refreshStatus={() => testMode ? undefined : fetchStatus()} /> :
-         currentStatus === "ONBOARDING" ? <UsernameScreen isEditMode={false} refreshStatus={() => { 
+         currentStatus === "ONBOARDING" ? <UsernameScreen isEditMode={false} initialUsername={username || ""} refreshStatus={() => { 
             testMode ? undefined : fetchStatus();
             fetchProfile(); 
           }} /> :
