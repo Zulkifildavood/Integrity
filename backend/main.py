@@ -19,15 +19,18 @@ from sqlalchemy import text
 models.Base.metadata.create_all(bind=engine)
 
 # Quick migration for is_locking_enabled and username
-with engine.begin() as conn:
-    try:
+# Each ALTER must be its own transaction - a failed ALTER rolls back the whole transaction (SQLAlchemy f405)
+try:
+    with engine.begin() as conn:
         conn.execute(text("ALTER TABLE users ADD COLUMN is_locking_enabled BOOLEAN DEFAULT FALSE;"))
-    except Exception:
-        pass  # Column likely already exists
-    try:
+except Exception:
+    pass  # Column already exists
+
+try:
+    with engine.begin() as conn:
         conn.execute(text("ALTER TABLE users ADD COLUMN username VARCHAR UNIQUE;"))
-    except Exception:
-        pass
+except Exception:
+    pass  # Column already exists
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
