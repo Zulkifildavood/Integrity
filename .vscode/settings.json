@@ -1,0 +1,10 @@
+{
+  "python.defaultInterpreterPath": "/Users/zulki/Documents/Project/Antigravity/integrity_app/backend/venv/bin/python",
+  "python.analysis.extraPaths": [
+    "/Users/zulki/Documents/Project/Antigravity/integrity_app/backend"
+  ],
+  "python.analysis.venvPath": "/Users/zulki/Documents/Project/Antigravity/integrity_app/backend",
+  "python.venvFolders": ["venv"],
+  "python.analysis.autoSearchPaths": true,
+  "python.analysis.useLibraryCodeForTypes": true
+}
