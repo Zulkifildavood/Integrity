@@ -17,7 +17,13 @@ body {
 }
 
 /* Brutalist Inputs */
-input, textarea {
+input[type="text"], 
+input[type="email"], 
+input[type="password"], 
+input[type="number"], 
+input[type="tel"], 
+input[type="url"], 
+textarea {
   background-color: transparent;
   border: 1px solid var(--dim);
   color: var(--foreground);
@@ -28,7 +34,13 @@ input, textarea {
   font-size: 16px;
 }
 
-input:focus, textarea:focus {
+input[type="text"]:focus, 
+input[type="email"]:focus, 
+input[type="password"]:focus, 
+input[type="number"]:focus, 
+input[type="tel"]:focus, 
+input[type="url"]:focus, 
+textarea:focus {
   border-color: var(--foreground);
 }
 
