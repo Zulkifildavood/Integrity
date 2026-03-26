@@ -18,6 +18,41 @@ export default function Home() {
   // -------- TEST MODE OVERRIDE --------
   const [testMode, setTestMode] = useState<{ active: boolean; mockStatus: string; mockIsBurn: boolean } | null>(null);
 
+  // -------- INACTIVITY AUTO-LOGOUT --------
+  useEffect(() => {
+    if (!isAuthenticated) return;
+    let timeoutId: NodeJS.Timeout;
+    
+    const logout = () => {
+      localStorage.removeItem("token");
+      setIsAuthenticated(false);
+      setStatus("UNAUTHORIZED");
+    };
+
+    const resetTimer = () => {
+      clearTimeout(timeoutId);
+      // 10 minutes = 600,000 ms
+      timeoutId = setTimeout(logout, 600000);
+    };
+
+    // Attach listeners
+    window.addEventListener("mousemove", resetTimer);
+    window.addEventListener("keydown", resetTimer);
+    window.addEventListener("click", resetTimer);
+    window.addEventListener("scroll", resetTimer);
+
+    // Initialize timer
+    resetTimer();
+
+    return () => {
+      clearTimeout(timeoutId);
+      window.removeEventListener("mousemove", resetTimer);
+      window.removeEventListener("keydown", resetTimer);
+      window.removeEventListener("click", resetTimer);
+      window.removeEventListener("scroll", resetTimer);
+    };
+  }, [isAuthenticated]);
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {
