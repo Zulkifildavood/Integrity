@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getStatus } from "@/lib/api";
+import { getStatus, getProfile } from "@/lib/api";
 import LockedScreen from "@/components/LockedScreen";
 import AMScreen from "@/components/AMScreen";
 import PMScreen from "@/components/PMScreen";
@@ -16,6 +16,7 @@ export default function Home() {
   const [remaining, setRemaining] = useState<number>(0);
   const [isBurn, setIsBurn] = useState<boolean>(false);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [username, setUsername] = useState<string | null>(null);
   const [activeMenuOverride, setActiveMenuOverride] = useState<string | null>(null);
 
   // -------- TEST MODE OVERRIDE --------
@@ -65,6 +66,7 @@ export default function Home() {
     
     setIsAuthenticated(true);
     fetchStatus();
+    fetchProfile();
     
     // Refresh status every exactly 1 minute, but depend on server time locally via sync.
     // For simplicity, poll every 30s.
@@ -89,10 +91,20 @@ export default function Home() {
     }
   };
 
+  const fetchProfile = async () => {
+    try {
+      const data = await getProfile();
+      setUsername(data.username);
+    } catch (err) {
+      console.error("Failed to fetch profile", err);
+    }
+  };
+
   if (status === "UNAUTHORIZED") {
     return <LoginScreen setAuthenticated={() => {
       setIsAuthenticated(true);
       fetchStatus();
+      fetchProfile();
     }} />;
   }
 
@@ -118,9 +130,22 @@ export default function Home() {
       )}
 
       <div className={`pt-20 pb-8 px-4 ${process.env.NODE_ENV === "development" ? "mt-16" : ""}`}>
-        {activeMenuOverride === "PROFILE" ? <UsernameScreen isEditMode={true} onClose={() => setActiveMenuOverride(null)} refreshStatus={() => testMode ? undefined : fetchStatus()} /> :
+        {username && (
+          <div className="flex justify-center mb-6">
+            <h2 className="text-xl font-bold tracking-widest text-zinc-100 opacity-80 animate-fade-in">
+              HI {username.toUpperCase()},
+            </h2>
+          </div>
+        )}
+        {activeMenuOverride === "PROFILE" ? <UsernameScreen isEditMode={true} onClose={() => setActiveMenuOverride(null)} refreshStatus={() => { 
+            testMode ? undefined : fetchStatus();
+            fetchProfile(); 
+          }} /> :
          activeMenuOverride === "SETUP" ? <SetupScreen refreshStatus={() => testMode ? undefined : fetchStatus()} /> :
-         currentStatus === "ONBOARDING" ? <UsernameScreen isEditMode={false} refreshStatus={() => testMode ? undefined : fetchStatus()} /> :
+         currentStatus === "ONBOARDING" ? <UsernameScreen isEditMode={false} refreshStatus={() => { 
+            testMode ? undefined : fetchStatus();
+            fetchProfile(); 
+          }} /> :
          currentIsBurn ? <BurnScreen /> : 
          currentStatus === "SETUP" ? <SetupScreen refreshStatus={() => testMode ? undefined : fetchStatus()} /> :
          currentStatus === "OPEN_AM" ? <AMScreen remaining={remaining} refreshStatus={() => testMode ? undefined : fetchStatus()} /> :

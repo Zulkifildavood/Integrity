@@ -69,7 +69,7 @@ export default function Header({
                 localStorage.removeItem("token");
                 window.location.reload();
               })}
-              className="w-full text-left px-4 py-2 text-sm text-red-500 font-bold hover:bg-red-600 hover:text-white transition-all border-t border-zinc-800 mt-0.5"
+              className="w-full text-left px-4 py-2 text-sm text-red-500 font-bold hover:bg-red-500 hover:text-white transition-all border-t border-zinc-800 mt-1"
             >
               Logout
             </button>

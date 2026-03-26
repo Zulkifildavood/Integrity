@@ -37,6 +37,10 @@ export const getStatus = async () => {
   return fetchAPI("/windows/status");
 };
 
+export const getProfile = async () => {
+  return fetchAPI("/auth/me");
+};
+
 export const enableLocking = async () => {
   return fetchAPI("/windows/enable-locking", {
     method: "POST",
