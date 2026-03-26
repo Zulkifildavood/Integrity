@@ -30,7 +30,6 @@ app = FastAPI(
 origins = [
     "http://localhost:3000",
     "https://integrity-tau.vercel.app",
-    "*"
 ]
 
 app.add_middleware(
