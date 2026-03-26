@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 # Fix passlib + bcrypt 4.x compatibility (passlib reads __about__.__version__ which was removed)
 import bcrypt
-if not hasattr(bcrypt, '__about__
+if not hasattr(bcrypt, '__about__'):
     class _About:
         __version__ = bcrypt.__version__
     bcrypt.__about__ = _About()
