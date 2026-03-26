@@ -10,12 +10,16 @@ from sqlalchemy import text
 # Create DB tables
 models.Base.metadata.create_all(bind=engine)
 
-# Quick migration for is_locking_enabled
+# Quick migration for is_locking_enabled and username
 with engine.begin() as conn:
     try:
         conn.execute(text("ALTER TABLE users ADD COLUMN is_locking_enabled BOOLEAN DEFAULT FALSE;"))
     except Exception:
         pass  # Column likely already exists
+    try:
+        conn.execute(text("ALTER TABLE users ADD COLUMN username VARCHAR UNIQUE;"))
+    except Exception:
+        pass
 
 app = FastAPI(
     title=settings.PROJECT_NAME,

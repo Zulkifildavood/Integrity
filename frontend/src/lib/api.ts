@@ -43,6 +43,13 @@ export const enableLocking = async () => {
   });
 };
 
+export const updateProfile = async (data: { username?: string, am_window_start?: string, pm_window_start?: string, timezone?: string }) => {
+  return fetchAPI("/auth/me", {
+    method: "PATCH",
+    body: JSON.stringify(data),
+  });
+};
+
 export const createAim = async (primary_aim: string, description: string = "") => {
   return fetchAPI("/aims/", {
     method: "POST",

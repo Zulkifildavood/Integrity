@@ -49,3 +49,23 @@ def login_access_token(db: Session = Depends(deps.get_db), form_data: OAuth2Pass
 @router.get("/me", response_model=user_schema.UserResponse)
 def read_users_me(current_user: models.User = Depends(deps.get_current_user)):
     return current_user
+
+@router.patch("/me", response_model=user_schema.UserResponse)
+def update_user_me(user_in: user_schema.UserUpdate, db: Session = Depends(deps.get_db), current_user: models.User = Depends(deps.get_current_user)):
+    if user_in.username is not None:
+        # Check if username already exists for someone else
+        existing_user = db.query(models.User).filter(models.User.username == user_in.username).first()
+        if existing_user and existing_user.id != current_user.id:
+            raise HTTPException(status_code=400, detail="Username is already taken.")
+        current_user.username = user_in.username
+        
+    if user_in.am_window_start is not None:
+        current_user.am_window_start = user_in.am_window_start
+    if user_in.pm_window_start is not None:
+        current_user.pm_window_start = user_in.pm_window_start
+    if user_in.timezone is not None:
+        current_user.timezone = user_in.timezone
+        
+    db.commit()
+    db.refresh(current_user)
+    return current_user

@@ -8,12 +8,15 @@ import PMScreen from "@/components/PMScreen";
 import BurnScreen from "@/components/BurnScreen";
 import LoginScreen from "@/components/LoginScreen";
 import SetupScreen from "@/components/SetupScreen";
+import UsernameScreen from "@/components/UsernameScreen";
+import Header from "@/components/Header";
 
 export default function Home() {
   const [status, setStatus] = useState<string>("LOADING");
   const [remaining, setRemaining] = useState<number>(0);
   const [isBurn, setIsBurn] = useState<boolean>(false);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [activeMenuOverride, setActiveMenuOverride] = useState<string | null>(null);
 
   // -------- TEST MODE OVERRIDE --------
   const [testMode, setTestMode] = useState<{ active: boolean; mockStatus: string; mockIsBurn: boolean } | null>(null);
@@ -100,9 +103,11 @@ export default function Home() {
 
   return (
     <>
+      <Header setActiveMenuOverride={setActiveMenuOverride} />
+
       {/* DEVELOPMENT ONLY: TEST PANEL */}
       {process.env.NODE_ENV === "development" && (
-        <div className="fixed top-0 left-0 right-0 bg-yellow-400 text-black text-xs font-mono p-2 flex items-center justify-center gap-4 z-50">
+        <div className="fixed top-16 left-0 right-0 bg-yellow-400 text-black text-xs font-mono p-2 flex flex-wrap items-center justify-center gap-4 z-40">
           <strong>TEST MODE:</strong>
           <button className="bg-black text-white px-2 py-1 rounded" onClick={() => setTestMode(null)}>Real State</button>
           <button className="bg-black text-white px-2 py-1 rounded" onClick={() => setTestMode({ active: true, mockStatus: "OPEN_AM", mockIsBurn: false })}>Force AM</button>
@@ -112,8 +117,11 @@ export default function Home() {
         </div>
       )}
 
-      <div className={process.env.NODE_ENV === "development" ? "pt-10" : ""}>
-        {currentIsBurn ? <BurnScreen /> : 
+      <div className={`pt-20 pb-8 px-4 ${process.env.NODE_ENV === "development" ? "mt-16" : ""}`}>
+        {activeMenuOverride === "PROFILE" ? <UsernameScreen isEditMode={true} onClose={() => setActiveMenuOverride(null)} refreshStatus={() => testMode ? undefined : fetchStatus()} /> :
+         activeMenuOverride === "SETUP" ? <SetupScreen refreshStatus={() => testMode ? undefined : fetchStatus()} /> :
+         currentStatus === "ONBOARDING" ? <UsernameScreen isEditMode={false} refreshStatus={() => testMode ? undefined : fetchStatus()} /> :
+         currentIsBurn ? <BurnScreen /> : 
          currentStatus === "SETUP" ? <SetupScreen refreshStatus={() => testMode ? undefined : fetchStatus()} /> :
          currentStatus === "OPEN_AM" ? <AMScreen remaining={remaining} refreshStatus={() => testMode ? undefined : fetchStatus()} /> :
          currentStatus === "OPEN_PM" ? <PMScreen remaining={remaining} refreshStatus={() => testMode ? undefined : fetchStatus()} /> :

@@ -12,12 +12,14 @@ class UserCreate(UserBase):
     password: str
 
 class UserUpdate(BaseModel):
+    username: Optional[str] = None
     am_window_start: Optional[str] = None
     pm_window_start: Optional[str] = None
     timezone: Optional[str] = None
 
 class UserResponse(UserBase):
     id: int
+    username: Optional[str] = None
     is_locking_enabled: bool = False
     created_at: datetime
     

@@ -17,6 +17,13 @@ def sync_time():
 @router.get("/status")
 def get_status(db: Session = Depends(deps.get_db), current_user: models.User = Depends(deps.get_current_user)):
     """Returns the current state machine status for the user"""
+    if not current_user.username:
+        return {
+            "status": "ONBOARDING",
+            "time_remaining_seconds": 0,
+            "is_burn": False
+        }
+
     if not current_user.is_locking_enabled:
         return {
             "status": "SETUP",

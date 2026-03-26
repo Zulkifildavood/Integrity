@@ -13,6 +13,7 @@ body {
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   margin: 0;
   padding: 0;
+  overflow-x: hidden;
 }
 
 /* Brutalist Inputs */
@@ -24,6 +25,7 @@ input, textarea {
   padding: 0.5rem;
   width: 100%;
   outline: none;
+  font-size: 16px;
 }
 
 input:focus, textarea:focus {
