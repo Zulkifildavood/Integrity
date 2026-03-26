@@ -37,8 +37,8 @@ export default function UsernameScreen({
   };
 
   return (
-    <div className={`flex flex-col items-center justify-center p-8 max-w-xl mx-auto w-full text-zinc-100 ${!isEditMode && "min-h-screen"}`}>
-      <div className="w-full p-8 border border-zinc-800 bg-zinc-900/40 rounded-sm shadow-xl">
+    <div className={`flex flex-col items-center justify-center p-4 max-w-xl mx-auto w-full text-zinc-100 ${!isEditMode ? "py-12" : "py-4"}`}>
+      <div className="w-full p-6 sm:p-8 border border-zinc-800 bg-zinc-900/40 rounded-sm shadow-xl">
         <h1 className="text-3xl font-bold mb-4 tracking-widest text-zinc-300">
           {isEditMode ? "EDIT PROFILE" : "INITIALIZE CALLSIGN"}
         </h1>

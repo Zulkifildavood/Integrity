@@ -60,8 +60,8 @@ export default function SetupScreen({ refreshStatus }: { refreshStatus: () => vo
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen px-4 py-8 md:p-8 max-w-xl mx-auto relative text-zinc-100">
-      <h1 className="text-4xl font-bold mb-8 tracking-widest text-zinc-400 text-center">SYSTEM SETUP</h1>
+    <div className="flex flex-col w-full max-w-xl mx-auto px-4 py-6 text-zinc-100">
+      <h1 className="text-2xl sm:text-4xl font-bold mb-8 tracking-widest text-zinc-400 text-center">SYSTEM SETUP</h1>
       
       {error && <div className="text-red-500 mb-4 text-center text-sm">{error}</div>}
 
@@ -146,7 +146,7 @@ export default function SetupScreen({ refreshStatus }: { refreshStatus: () => vo
                 onChange={(e) => setLockingEnabled(e.target.checked)}
                 disabled={loading}
               />
-              <label htmlFor="enableLocking" className="font-bold text-red-300 cursor-pointer text-sm">
+              <label htmlFor="enableLocking" className="font-bold text-red-300 cursor-pointer text-sm flex-1">
                 I am ready to enforce my schedule.
               </label>
             </div>

@@ -22,9 +22,9 @@ export default function LockedScreen({ remaining }: { remaining: number }) {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen text-center p-8">
-      <h1 className="text-4xl font-bold mb-4 tracking-widest text-[#444444]">SYSTEM LOCKED</h1>
-      <div className="text-6xl font-mono mb-8 border-b-2 border-[#444444] pb-4">
+    <div className="flex flex-col items-center justify-center w-full max-w-2xl mx-auto px-4 py-12 text-center">
+      <h1 className="text-2xl sm:text-4xl font-bold mb-4 tracking-widest text-[#444444]">SYSTEM LOCKED</h1>
+      <div className="text-4xl sm:text-6xl font-mono mb-8 border-b-2 border-[#444444] pb-4">
         {timeLeft > 0 ? formatTime(timeLeft) : "WAITING FOR SYNC"}
       </div>
       <p className="text-sm text-gray-500 uppercase tracking-widest">Discipline enforces freedom.</p>

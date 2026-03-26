@@ -58,10 +58,10 @@ export default function PMScreen({ remaining, refreshStatus }: { remaining: numb
   };
 
   return (
-    <div className="flex flex-col items-center min-h-screen p-8 max-w-2xl mx-auto">
-      <div className="w-full flex justify-between items-center mb-8 border-b border-[#444444] pb-4">
-        <h1 className="text-xl font-bold uppercase tracking-widest">Auditor Window</h1>
-        <div className={`text-2xl font-mono ${timeLeft < 60 ? "text-red-500 animate-pulse" : ""}`}>
+    <div className="flex flex-col w-full max-w-2xl mx-auto px-4 py-6">
+      <div className="w-full flex flex-wrap justify-between items-center mb-6 border-b border-[#444444] pb-4 gap-2">
+        <h1 className="text-lg sm:text-xl font-bold uppercase tracking-widest">Auditor Window</h1>
+        <div className={`text-xl sm:text-2xl font-mono ${timeLeft < 60 ? "text-red-500 animate-pulse" : ""}`}>
           {formatTime(timeLeft)}
         </div>
       </div>
@@ -89,7 +89,7 @@ export default function PMScreen({ remaining, refreshStatus }: { remaining: numb
           spellCheck="false"
         />
 
-        <div className="flex justify-end mt-8">
+        <div className="flex justify-end mt-6">
           <button onClick={handleSubmit} disabled={submitting}>
             {submitting ? "SUBMITTING..." : "COMMIT"}
           </button>

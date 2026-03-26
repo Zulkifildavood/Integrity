@@ -54,16 +54,17 @@ export default function LoginScreen({ setAuthenticated }: { setAuthenticated: ()
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen p-8">
-      <h1 className="text-2xl font-bold mb-8 uppercase tracking-widest">RITUAL WINDOW</h1>
+    <div className="flex flex-col items-center justify-center w-full px-4 py-12 sm:p-8">
+      <h1 className="text-xl sm:text-2xl font-bold mb-8 uppercase tracking-widest text-center">RITUAL WINDOW</h1>
       <form onSubmit={handleSubmit} className="w-full max-w-sm flex flex-col space-y-4">
-        {error && <div className="text-red-500 text-sm">{error}</div>}
-        {successMsg && <div className="text-green-500 text-sm">{successMsg}</div>}
+        {error && <div className="text-red-500 text-sm text-center">{error}</div>}
+        {successMsg && <div className="text-green-500 text-sm text-center">{successMsg}</div>}
         <input 
           type="email" 
           placeholder="EMAIL" 
           value={email} 
           onChange={(e) => setEmail(e.target.value)} 
+          className="w-full"
           required 
         />
         <input 
@@ -71,9 +72,10 @@ export default function LoginScreen({ setAuthenticated }: { setAuthenticated: ()
           placeholder="PASSWORD" 
           value={password} 
           onChange={(e) => setPassword(e.target.value)} 
+          className="w-full"
           required 
         />
-        <button type="submit">{isRegister ? "REGISTER" : "ENTER"}</button>
+        <button type="submit" className="w-full">{isRegister ? "REGISTER" : "ENTER"}</button>
       </form>
       <button 
         className="mt-8 text-sm text-gray-500 border-none hover:text-white bg-transparent"
