@@ -64,7 +64,7 @@ export default function SetupScreen({ refreshStatus }: { refreshStatus: () => vo
       <button 
         onClick={() => {
           localStorage.removeItem("token");
-          refreshStatus();
+          window.location.reload();
         }}
         className="fixed top-8 right-8 text-xs font-bold text-zinc-500 hover:text-zinc-300 uppercase tracking-widest bg-zinc-900 border border-zinc-800 p-2 rounded shadow-lg z-50 transition-colors"
       >
