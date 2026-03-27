@@ -115,6 +115,10 @@ export default function Home() {
   const currentStatus = testMode?.active ? testMode.mockStatus : status;
   const currentIsBurn = testMode?.active ? testMode.mockIsBurn : isBurn;
 
+  // Helper: convert username to Title Case (e.g. "zulkifil dawood" → "Zulkifil Dawood")
+  const toTitleCase = (str: string) =>
+    str.replace(/\w\S*/g, txt => txt.charAt(0).toUpperCase() + txt.slice(1).toLowerCase());
+
   return (
     <>
       <Header setActiveMenuOverride={setActiveMenuOverride} isLockingEnabled={isLockingEnabled} />
@@ -133,15 +137,17 @@ export default function Home() {
 
       <div className={`pt-20 pb-8 px-4 ${process.env.NODE_ENV === "development" ? "mt-16" : ""}`}>
         {username && (
-          <div className="flex justify-center mb-6">
-            <h2 className="text-xl font-bold tracking-widest text-zinc-100 opacity-80 animate-fade-in">
-              HI {username.toUpperCase()},
+          <div className="flex justify-center mt-8 mb-6">
+            <h2 className="text-base font-semibold tracking-wide text-zinc-400">
+              Hi, {toTitleCase(username)}
             </h2>
           </div>
         )}
-        {activeMenuOverride === "PROFILE" ? <UsernameScreen isEditMode={true} initialUsername={username || ""} onClose={() => setActiveMenuOverride(null)} refreshStatus={() => { 
+        {activeMenuOverride === "PROFILE" ? <UsernameScreen isEditMode={true} initialUsername={username || ""} onClose={() => {
+            setActiveMenuOverride(null);
+            fetchProfile();
+          }} refreshStatus={() => { 
             testMode ? undefined : fetchStatus();
-            fetchProfile(); 
           }} /> :
          activeMenuOverride === "SETUP" ? <SetupScreen refreshStatus={() => testMode ? undefined : fetchStatus()} /> :
          currentStatus === "ONBOARDING" ? <UsernameScreen isEditMode={false} initialUsername={username || ""} refreshStatus={() => { 
