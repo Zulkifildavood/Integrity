@@ -32,6 +32,12 @@ try:
 except Exception:
     pass  # Column already exists
 
+try:
+    with engine.begin() as conn:
+        conn.execute(text("ALTER TABLE users ADD COLUMN locking_enabled_at TIMESTAMP WITH TIME ZONE;"))
+except Exception:
+    pass  # Column already exists
+
 app = FastAPI(
     title=settings.PROJECT_NAME,
     openapi_url=f"{settings.API_V1_STR}/openapi.json"

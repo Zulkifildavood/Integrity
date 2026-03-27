@@ -17,6 +17,7 @@ class User(Base):
     timezone = Column(String, default="UTC")
     
     is_locking_enabled = Column(Boolean, default=False)
+    locking_enabled_at = Column(DateTime(timezone=True), nullable=True)
     
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 

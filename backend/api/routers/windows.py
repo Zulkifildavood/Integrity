@@ -73,7 +73,9 @@ def enable_locking(db: Session = Depends(deps.get_db), current_user: models.User
     if current_user.is_locking_enabled:
         raise HTTPException(status_code=400, detail="Locking is already enabled.")
     
+    now = time_lock.get_current_time_utc()
     current_user.is_locking_enabled = True
+    current_user.locking_enabled_at = now
     db.commit()
     return {"message": "Locking enabled successfully"}
 
@@ -127,7 +129,20 @@ def submit_pm_reflection(reflection_in: log_schema.PMReflectionSubmit, db: Sessi
     ).first()
     
     if not log or not log.am_goals:
-        raise HTTPException(status_code=400, detail="No AM goals found for today. Streak Burned.")
+        # Grace period: if locking was enabled today (user set up system after AM window),
+        # allow them to submit PM reflection without AM goals on day 1 only.
+        today_str_check = time_lock.get_current_time_utc().strftime("%Y-%m-%d")
+        locking_date = current_user.locking_enabled_at.strftime("%Y-%m-%d") if current_user.locking_enabled_at else None
+        is_first_day = (locking_date == today_str_check)
+        
+        if not is_first_day:
+            raise HTTPException(status_code=400, detail="No AM goals found for today. Complete your morning window first.")
+        
+        # First day grace: create a placeholder log so PM can be submitted
+        if not log:
+            log = models.DailyLog(user_id=current_user.id, date=today_str)
+            db.add(log)
+            db.flush()  # get the ID without committing
         
     if log.pm_completed_at:
         raise HTTPException(status_code=400, detail="PM Reflection already submitted for today.")
