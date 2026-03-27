@@ -189,21 +189,25 @@ export default function SetupScreen({ refreshStatus }: { refreshStatus: () => vo
                     Morning Window (AM) — starts between 4 AM and 8 AM
                   </p>
                   <div className="flex flex-wrap gap-2">
-                    {AM_OPTIONS.map(opt => (
-                      <button
-                        key={opt.value}
-                        type="button"
-                        onClick={() => setAmWindow(opt.value)}
-                        className={`px-4 py-2 text-sm font-bold rounded-sm border transition-all
-                          ${amWindow === opt.value
-                            ? 'bg-zinc-200 text-black border-zinc-200'
-                            : 'bg-transparent text-zinc-400 border-zinc-700 hover:border-zinc-400 hover:text-zinc-200'
-                          }`}
-                        disabled={loading}
-                      >
-                        {opt.label}
-                      </button>
-                    ))}
+                    {AM_OPTIONS.map(opt => {
+                      const selected = amWindow === opt.value;
+                      return (
+                        <button
+                          key={opt.value}
+                          type="button"
+                          onClick={() => setAmWindow(opt.value)}
+                          style={selected ? { backgroundColor: '#ffffff', color: '#000000', border: '2px solid #ffffff' } : {}}
+                          className={`px-4 py-2 text-sm font-bold rounded-sm border transition-all
+                            ${selected
+                              ? ''
+                              : 'bg-transparent text-zinc-400 border-zinc-700 hover:border-zinc-400 hover:text-zinc-200'
+                            }`}
+                          disabled={loading}
+                        >
+                          {selected ? `✓ ${opt.label}` : opt.label}
+                        </button>
+                      );
+                    })}
                   </div>
                 </div>
 
@@ -213,21 +217,25 @@ export default function SetupScreen({ refreshStatus }: { refreshStatus: () => vo
                     Evening Window (PM) — starts between 7 PM and 11 PM
                   </p>
                   <div className="flex flex-wrap gap-2">
-                    {PM_OPTIONS.map(opt => (
-                      <button
-                        key={opt.value}
-                        type="button"
-                        onClick={() => setPmWindow(opt.value)}
-                        className={`px-4 py-2 text-sm font-bold rounded-sm border transition-all
-                          ${pmWindow === opt.value
-                            ? 'bg-zinc-200 text-black border-zinc-200'
-                            : 'bg-transparent text-zinc-400 border-zinc-700 hover:border-zinc-400 hover:text-zinc-200'
-                          }`}
-                        disabled={loading}
-                      >
-                        {opt.label}
-                      </button>
-                    ))}
+                    {PM_OPTIONS.map(opt => {
+                      const selected = pmWindow === opt.value;
+                      return (
+                        <button
+                          key={opt.value}
+                          type="button"
+                          onClick={() => setPmWindow(opt.value)}
+                          style={selected ? { backgroundColor: '#ffffff', color: '#000000', border: '2px solid #ffffff' } : {}}
+                          className={`px-4 py-2 text-sm font-bold rounded-sm border transition-all
+                            ${selected
+                              ? ''
+                              : 'bg-transparent text-zinc-400 border-zinc-700 hover:border-zinc-400 hover:text-zinc-200'
+                            }`}
+                          disabled={loading}
+                        >
+                          {selected ? `✓ ${opt.label}` : opt.label}
+                        </button>
+                      );
+                    })}
                   </div>
                 </div>
 
