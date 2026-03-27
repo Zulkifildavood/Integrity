@@ -17,6 +17,7 @@ export default function Home() {
   const [isBurn, setIsBurn] = useState<boolean>(false);
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [username, setUsername] = useState<string | null>(null);
+  const [isLockingEnabled, setIsLockingEnabled] = useState<boolean>(false);
   const [activeMenuOverride, setActiveMenuOverride] = useState<string | null>(null);
 
   // -------- TEST MODE OVERRIDE --------
@@ -95,6 +96,7 @@ export default function Home() {
     try {
       const data = await getProfile();
       setUsername(data.username);
+      setIsLockingEnabled(data.is_locking_enabled);
     } catch (err) {
       console.error("Failed to fetch profile", err);
     }
@@ -115,7 +117,7 @@ export default function Home() {
 
   return (
     <>
-      <Header setActiveMenuOverride={setActiveMenuOverride} />
+      <Header setActiveMenuOverride={setActiveMenuOverride} isLockingEnabled={isLockingEnabled} />
 
       {/* DEVELOPMENT ONLY: TEST PANEL */}
       {process.env.NODE_ENV === "development" && (

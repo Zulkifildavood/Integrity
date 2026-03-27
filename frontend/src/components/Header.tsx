@@ -2,9 +2,11 @@
 import { useState, useRef, useEffect } from "react";
 
 export default function Header({
-  setActiveMenuOverride
+  setActiveMenuOverride,
+  isLockingEnabled = false
 }: {
-  setActiveMenuOverride: (view: string | null) => void
+  setActiveMenuOverride: (view: string | null) => void;
+  isLockingEnabled?: boolean;
 }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -58,12 +60,14 @@ export default function Header({
             >
               Edit Profile
             </button>
-            <button
-              onClick={() => handleAction(() => setActiveMenuOverride("SETUP"))}
-              className="w-full text-left px-4 py-3 text-sm text-zinc-300 hover:bg-zinc-800 hover:text-white transition-colors"
-            >
-              System Setup
-            </button>
+            {!isLockingEnabled && (
+              <button
+                onClick={() => handleAction(() => setActiveMenuOverride("SETUP"))}
+                className="w-full text-left px-4 py-3 text-sm text-zinc-300 hover:bg-zinc-800 hover:text-white transition-colors"
+              >
+                System Setup
+              </button>
+            )}
             <button
               onClick={() => handleAction(() => {
                 localStorage.removeItem("token");
