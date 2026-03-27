@@ -70,13 +70,20 @@ export default function SetupScreen({ refreshStatus }: { refreshStatus: () => vo
         <div className={`p-6 border rounded-sm ${aimSaved ? 'border-green-900 bg-green-950/20' : 'border-zinc-800 bg-zinc-900/40'}`}>
           <h2 className="text-xl font-bold mb-4 text-zinc-100">1. Define Your Priorities</h2>
           <p className="text-sm text-zinc-400 mb-4">What is your single most important priority right now?</p>
-
-          className="w-full p-3 bg-black/50 border border-zinc-700 text-zinc-200 placeholder-zinc-600 focus:outline-none focus:border-zinc-500 mb-4 rounded-sm"
-          rows={2}
-          placeholder="Primary Aim (e.g. Launch my startup gracefully by Q3...)"
-          value={aim}
-          onChange={(e) => setAim(e.target.value)}
-          disabled={loading || aimSaved}
+          {!aimSaved ? (
+            <textarea
+              className="w-full p-3 bg-black/50 border border-zinc-700 text-zinc-200 placeholder-zinc-600 focus:outline-none focus:border-zinc-500 mb-4 rounded-sm resize-none"
+              rows={2}
+              placeholder="Primary Aim (e.g. Launch my startup gracefully by Q3...)"
+              value={aim}
+              onChange={(e) => setAim(e.target.value)}
+              disabled={loading}
+            />
+          ) : (
+            <div className="w-full p-3 border border-zinc-700 text-zinc-200 mb-4 rounded-sm">
+              {aim}
+            </div>
+          )}
 
           {!aimSaved && extraPriorities.map((ep, i) => (
             <div key={i} className="flex gap-2 mb-3">
