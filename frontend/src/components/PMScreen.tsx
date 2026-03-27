@@ -8,6 +8,7 @@ export default function PMScreen({ remaining, refreshStatus }: { remaining: numb
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
   const [penaltyWarning, setPenaltyWarning] = useState(false);
+  const [pasteWarning, setPasteWarning] = useState(false);
 
   useEffect(() => {
     setTimeLeft(remaining);
@@ -72,6 +73,12 @@ export default function PMScreen({ remaining, refreshStatus }: { remaining: numb
         </div>
       )}
 
+      {pasteWarning && (
+        <div className="mb-4 text-yellow-400 text-sm border border-yellow-500 p-2 w-full text-center uppercase tracking-widest animate-pulse">
+          ⚠ Paste is disabled. Write your reflection manually.
+        </div>
+      )}
+
       {error && <div className="mb-4 text-red-500 text-sm">{error}</div>}
 
       <div className="w-full space-y-4">
@@ -83,7 +90,11 @@ export default function PMScreen({ remaining, refreshStatus }: { remaining: numb
           placeholder="State what was done and what was failed."
           rows={10}
           className="w-full resize-none"
-          onPaste={(e) => e.preventDefault()}
+          onPaste={(e) => {
+            e.preventDefault();
+            setPasteWarning(true);
+            setTimeout(() => setPasteWarning(false), 3000);
+          }}
           onCopy={(e) => e.preventDefault()}
           autoComplete="off"
           spellCheck="false"
