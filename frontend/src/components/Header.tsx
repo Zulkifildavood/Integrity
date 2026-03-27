@@ -51,16 +51,16 @@ export default function Header({
         </button>
 
         {menuOpen && (
-          <div className="absolute right-0 mt-1 w-44 bg-zinc-900 border border-zinc-800 rounded-sm shadow-2xl py-1 animate-fade-in origin-top-right">
+          <div className="absolute right-0 mt-2 w-48 bg-zinc-900 border border-zinc-700 rounded-sm shadow-2xl py-2 animate-fade-in origin-top-right">
             <button
               onClick={() => handleAction(() => setActiveMenuOverride("PROFILE"))}
-              className="w-full text-left px-4 py-2 text-sm text-zinc-300 hover:bg-zinc-800 hover:text-white transition-colors"
+              className="w-full text-left px-4 py-3 text-sm text-zinc-300 hover:bg-zinc-800 hover:text-white transition-colors"
             >
               Edit Profile
             </button>
             <button
               onClick={() => handleAction(() => setActiveMenuOverride("SETUP"))}
-              className="w-full text-left px-4 py-2 text-sm text-zinc-300 hover:bg-zinc-800 hover:text-white transition-colors"
+              className="w-full text-left px-4 py-3 text-sm text-zinc-300 hover:bg-zinc-800 hover:text-white transition-colors"
             >
               System Setup
             </button>
@@ -69,7 +69,7 @@ export default function Header({
                 localStorage.removeItem("token");
                 window.location.reload();
               })}
-              className="w-full text-left px-4 py-2 text-sm text-red-500 font-bold hover:bg-red-500 hover:text-white transition-all border-t border-zinc-800 mt-1"
+              className="w-full text-left px-4 py-3 text-sm text-red-500 font-bold hover:bg-red-950/50 hover:text-red-400 transition-colors border-t border-zinc-800 mt-1"
             >
               Logout
             </button>
