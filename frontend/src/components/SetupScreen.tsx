@@ -60,7 +60,7 @@ export default function SetupScreen({ refreshStatus }: { refreshStatus: () => vo
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-[calc(100vh-120px)] w-full max-w-xl mx-auto px-4 py-6 text-zinc-100">
+    <div className="flex flex-col w-full max-w-xl mx-auto px-4 py-6 text-zinc-100">
 
       {error && <div className="text-red-500 mb-4 text-center text-sm">{error}</div>}
 

@@ -137,10 +137,10 @@ export default function Home() {
 
       <div className={`pt-20 pb-8 px-4 ${process.env.NODE_ENV === "development" ? "mt-16" : ""}`}>
         {username && (
-          <div className="flex justify-center mt-8 mb-6">
-            <h2 className="text-base font-semibold tracking-wide text-zinc-400">
+          <div className="flex justify-center mt-4 mb-4">
+            <h1 className="text-2xl sm:text-3xl font-bold tracking-wide text-zinc-200">
               Hi, {toTitleCase(username)}
-            </h2>
+            </h1>
           </div>
         )}
         {activeMenuOverride === "PROFILE" ? <UsernameScreen isEditMode={true} initialUsername={username || ""} onClose={() => {
