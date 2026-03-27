@@ -62,7 +62,7 @@ export default function SetupScreen({ refreshStatus }: { refreshStatus: () => vo
   return (
     <div className="flex flex-col items-center justify-center min-h-[calc(100vh-120px)] w-full max-w-xl mx-auto px-4 py-6 text-zinc-100">
       <h1 className="text-2xl sm:text-4xl font-bold mb-8 tracking-widest text-zinc-400 text-center">SYSTEM SETUP</h1>
-      
+
       {error && <div className="text-red-500 mb-4 text-center text-sm">{error}</div>}
 
       <div className="w-full space-y-8">
@@ -70,14 +70,13 @@ export default function SetupScreen({ refreshStatus }: { refreshStatus: () => vo
         <div className={`p-6 border rounded-sm ${aimSaved ? 'border-green-900 bg-green-950/20' : 'border-zinc-800 bg-zinc-900/40'}`}>
           <h2 className="text-xl font-bold mb-4 text-zinc-100">1. Define Your Priorities</h2>
           <p className="text-sm text-zinc-400 mb-4">What is your single most important priority right now?</p>
-          <textarea
-            className="w-full p-3 bg-black/50 border border-zinc-700 text-zinc-200 placeholder-zinc-600 focus:outline-none focus:border-zinc-500 mb-4 rounded-sm"
-            rows={2}
-            placeholder="Primary Aim (e.g. Launch my startup gracefully by Q3...)"
-            value={aim}
-            onChange={(e) => setAim(e.target.value)}
-            disabled={loading || aimSaved}
-          />
+
+          className="w-full p-3 bg-black/50 border border-zinc-700 text-zinc-200 placeholder-zinc-600 focus:outline-none focus:border-zinc-500 mb-4 rounded-sm"
+          rows={2}
+          placeholder="Primary Aim (e.g. Launch my startup gracefully by Q3...)"
+          value={aim}
+          onChange={(e) => setAim(e.target.value)}
+          disabled={loading || aimSaved}
 
           {!aimSaved && extraPriorities.map((ep, i) => (
             <div key={i} className="flex gap-2 mb-3">
@@ -111,13 +110,13 @@ export default function SetupScreen({ refreshStatus }: { refreshStatus: () => vo
           )}
 
           {!aimSaved && extraPriorities.length < 4 && (
-             <button
-               onClick={handleAddExtra}
-               className="text-xs font-bold text-zinc-400 uppercase mb-6 hover:text-zinc-200 transition-colors block tracking-widest"
-               disabled={loading}
-             >
-               + Add Priority ({extraPriorities.length + 1}/5 max)
-             </button>
+            <button
+              onClick={handleAddExtra}
+              className="text-xs font-bold text-zinc-400 uppercase mb-6 hover:text-zinc-200 transition-colors block tracking-widest"
+              disabled={loading}
+            >
+              + Add Priority ({extraPriorities.length + 1}/5 max)
+            </button>
           )}
 
           {!aimSaved && (
@@ -136,7 +135,7 @@ export default function SetupScreen({ refreshStatus }: { refreshStatus: () => vo
         {aimSaved && (
           <div className="p-6 border border-red-900/50 bg-red-950/20 animate-fade-in transition-opacity duration-500 rounded-sm">
             <h2 className="text-xl font-bold mb-5 text-red-500 tracking-wide">2. Enable Strict Mode</h2>
-            
+
             <div className="flex items-center space-x-4 mb-6">
               <input
                 type="checkbox"
@@ -153,7 +152,7 @@ export default function SetupScreen({ refreshStatus }: { refreshStatus: () => vo
 
             <div className="text-xs text-red-300/80 mb-8 bg-red-950/40 border border-red-900/40 p-4 rounded-sm">
               <strong className="block mb-2 font-extrabold uppercase tracking-widest text-red-400">WARNING:</strong>
-              Once enabled, the system will start locking your application during non-window hours. 
+              Once enabled, the system will start locking your application during non-window hours.
               <strong className="block mt-2 text-red-400">You cannot undo this without burning your streak.</strong>
             </div>
 
@@ -161,8 +160,8 @@ export default function SetupScreen({ refreshStatus }: { refreshStatus: () => vo
               onClick={handleConfirmLock}
               disabled={!lockingEnabled || loading}
               className={`px-6 py-4 w-full uppercase tracking-widest text-sm font-bold transition-all rounded-sm
-                ${!lockingEnabled || loading 
-                  ? 'bg-zinc-800 text-zinc-600 cursor-not-allowed border border-zinc-700/50' 
+                ${!lockingEnabled || loading
+                  ? 'bg-zinc-800 text-zinc-600 cursor-not-allowed border border-zinc-700/50'
                   : 'bg-red-900/80 text-red-100 hover:bg-red-800 hover:shadow-lg hover:shadow-red-900/20 border border-red-700'}`}
             >
               {loading ? "Securing System..." : "Confirm & Lock System"}
