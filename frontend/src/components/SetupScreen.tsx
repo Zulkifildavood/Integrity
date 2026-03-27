@@ -7,7 +7,7 @@ const AM_OPTIONS = [
   { label: "5:00 AM", value: "05:00" },
   { label: "6:00 AM", value: "06:00" },
   { label: "7:00 AM", value: "07:00" },
-  { label: "8:00 AM", value: "08:00" },
+
 ];
 
 const PM_OPTIONS = [
